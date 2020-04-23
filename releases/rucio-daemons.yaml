@@ -1,0 +1,17 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: rucio-daemons
+  namespace: flux
+spec:
+  releaseName: rucio-daemons
+  chart:
+    git: ssh://git@github.com/arisfkiaras/ESCAPE2020-WP2-CERN-Kubernetes-GitOps-with-Flux
+    ref: master
+    path: charts/rucio/daemons
+  values:
+    image:
+        repository: rucio/rucio-daemons
+        tag: release-1.21.10.post1        
+        pullPolicy: Always
+    judgeCleanerCount: 1
