@@ -3,7 +3,7 @@
 ## Pre-Requisites
 A kubernetes cluster
 Helm
-
+fluxctl
 ## Secrets that need to be configured
 
 
@@ -24,12 +24,21 @@ Create a flux namespace
 kubectl create namespace flux
 ```
 
-Install the flux daemon that fetches the charts and manifests from this repo
+Fork Repo
+
+Install the flux daemon that fetches the charts and manifests from your repo
 ```bash
 helm upgrade -i flux fluxcd/flux \
---set git.url=git@github.com:arisfkiaras/ESCAPE2020-WP2-CERN-Kubernetes-GitOps-with-Flux/flux-get-started \
+--set git.url=git@github.com:USERNAME/ESCAPE2020-WP2-CERN-Kubernetes-GitOps-with-Flux \
 --namespace flux 
 ```
+
+Get flux public key
+```bash
+fluxctl identity --k8s-fwd-ns flux
+```
+
+Add flux public key to your deploy key repo settings with write permissions.
 
 Install the helm-operator that applies the manifests
 ```bash
@@ -38,4 +47,9 @@ helm upgrade -i helm-operator fluxcd/helm-operator \
 --namespace flux
 ```
 
-[Flux Documentation]([google.com](https://docs.fluxcd.io/en/1.18.0/tutorials/get-started-helm.html))
+Sync to test everything is working correctly
+```bash
+fluxctl sync
+```
+
+[Flux Documentation](https://docs.fluxcd.io/en/1.18.0/tutorials/get-started-helm.html)
