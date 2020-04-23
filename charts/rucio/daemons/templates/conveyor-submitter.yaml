@@ -1,0 +1,93 @@
+{{- if gt .Values.conveyorTransferSubmitterCount 0.0 -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-conveyor-submitter
+  labels:
+    app: {{ template "rucio.name" . }}
+    chart: {{ template "rucio.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.conveyorTransferSubmitterCount }}
+  selector:
+    matchLabels:
+      app: {{ template "rucio.name" . }}
+      release: {{ .Release.Name }}
+  strategy:
+    type: {{ .Values.strategy.type }}
+{{- if eq .Values.strategy.type "RollingUpdate" }}
+    {{- with .Values.strategy.rollingUpdate }}
+    rollingUpdate:
+{{ toYaml . | trim | indent 6 }}
+    {{- end }}
+{{- end }}
+  minReadySeconds: {{ .Values.minReadySeconds }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "rucio.name" . }}
+        release: {{ .Release.Name }}
+        rucio-daemon: conveyor-submitter
+    spec:
+      volumes:
+      - name: proxy-volume
+        secret:
+          secretName: {{ .Release.Name }}-rucio-x509up
+      - name: ca-volume
+        secret:
+          secretName: {{ .Release.Name }}-rucio-ca-bundle
+      {{- range $key, $val := .Values.additionalSecrets }}
+      - name: {{ $key }}
+        secret:
+          secretName: {{ $.Release.Name }}-{{ $val.secretName }}
+      {{- end}}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: proxy-volume
+              mountPath: /opt/proxy
+            - name: ca-volume
+              mountPath: /opt/certs
+            {{- range $key, $val := .Values.additionalSecrets }}
+            - name: {{ $key }}
+              mountPath: {{ $val.mountPath }}
+              subPath: {{ $val.subPath }}
+            {{- end}}
+          ports:
+            - name: metrics
+              containerPort: 8080
+              protocol: TCP
+          env:
+            {{- range $key1, $val1 := .Values.config }}
+            {{- range $key2, $val2 := $val1}}
+            - name: RUCIO_CFG_{{ $key1 | upper }}_{{ $key2 | upper }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "rucio.fullname" $ }}.cfg
+                  key: {{ $key1 }}_{{ $key2 }}
+            {{- end}}
+            {{- end}}
+            - name: RUCIO_DAEMON
+              value: "conveyor-submitter"
+            - name: RUCIO_DAEMON_ARGS
+              value: "{{- if .Values.conveyorTransferSubmitter.threads }} --total-threads {{ .Values.conveyorTransferSubmitter.threads }}{{ end }} {{- if .Values.conveyorTransferSubmitter.bulk }} --bulk {{ .Values.conveyorTransferSubmitter.bulk }}{{ end }} {{- if .Values.conveyorTransferSubmitter.groupBulk }} --group-bulk {{ .Values.conveyorTransferSubmitter.groupBulk }}{{ end}}{{- if .Values.conveyorTransferSubmitter.groupPolicy }} --group-policy {{ .Values.conveyorTransferSubmitter.groupPolicy }}{{ end }} {{- if .Values.conveyorTransferSubmitter.mock }} --mock {{ .Values.conveyorTransferSubmitter.mock }}{{ end }} {{- if .Values.conveyorTransferSubmitter.sourceStrategy }} --source-strategy {{ .Values.conveyorTransferSubmitter.sourceStrategy }}{{ end }} {{- if .Values.conveyorTransferSubmitter.excludeRses }} --exclude-rses {{ .Values.conveyorTransferSubmitter.excludeRses }}{{ end}} {{- if .Values.conveyorTransferSubmitter.includeRses }} --include-rses {{ .Values.conveyorTransferSubmitter.includeRses }}{{ end}} {{- if .Values.conveyorTransferSubmitter.rses }} --rses {{ .Values.conveyorTransferSubmitter.rses }}{{ end}} {{- if .Values.conveyorTransferSubmitter.sleepTime }} --sleep-time {{ .Values.conveyorTransferSubmitter.sleepTime }}{{ end}} {{- if .Values.conveyorTransferSubmitter.activities }} --activities {{ .Values.conveyorTransferSubmitter.activities }}{{ end}} {{- if .Values.conveyorTransferSubmitter.excludeActivities }} --exclude-activities {{ .Values.conveyorTransferSubmitter.excludeActivities }}{{ end}} {{- if .Values.conveyorTransferSubmitter.maxSources }} --max-sources {{ .Values.conveyorTransferSubmitter.maxSources }}{{end }} {{- if .Values.conveyorTransferSubmitter.retryOtherFts }}  --retry-other-fts {{ .Values.conveyorTransferSubmitter.retryOtherFts }}{{ end}}"
+{{- with .Values.conveyorTransferSubmitter.resources }}
+          resources:
+{{ toYaml . | trim | indent 12 }}
+{{ end }}
+{{- with .Values.conveyorTransferSubmitter.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.conveyorTransferSubmitter.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.conveyorTransferSubmitter.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{ end }}

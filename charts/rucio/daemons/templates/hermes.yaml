@@ -1,0 +1,87 @@
+{{- if gt .Values.hermesCount 0.0 -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-hermes
+  labels:
+    app: {{ template "rucio.name" . }}
+    chart: {{ template "rucio.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.hermesCount }}
+  selector:
+    matchLabels:
+      app: {{ template "rucio.name" . }}
+      release: {{ .Release.Name }}
+  strategy:
+    type: {{ .Values.strategy.type }}
+{{- if eq .Values.strategy.type "RollingUpdate" }}
+    {{- with .Values.strategy.rollingUpdate }}
+    rollingUpdate:
+{{ toYaml . | trim | indent 6 }}
+    {{- end }}
+{{- end }}
+  minReadySeconds: {{ .Values.minReadySeconds }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "rucio.name" . }}
+        release: {{ .Release.Name }}
+        rucio-daemon: hermes
+    spec:
+{{ if .Values.hermes.useSSL }}
+      volumes:
+        - name: usercert
+          secret:
+            secretName: {{ .Release.Name }}-hermes-cert
+        - name: userkey
+          secret:
+            secretName: {{ .Release.Name }}-hermes-key
+{{ end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+{{ if .Values.hermes.useSSL }}
+          volumeMounts:
+            - name: usercert
+              mountPath: /opt/rucio/certs/
+            - name: userkey
+              mountPath: /opt/rucio/keys/
+{{ end }}
+          ports:
+            - name: metrics
+              containerPort: 8080
+              protocol: TCP
+          env:
+            {{- range $key1, $val1 := .Values.config }}
+            {{- range $key2, $val2 := $val1}}
+            - name: RUCIO_CFG_{{ $key1 | upper }}_{{ $key2 | upper }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "rucio.fullname" $ }}.cfg
+                  key: {{ $key1 }}_{{ $key2 }}
+            {{- end}}
+            {{- end}}
+            - name: RUCIO_DAEMON
+              value: "hermes"
+            - name: RUCIO_DAEMON_ARGS
+              value: "{{- if .Values.hermes.threads }} --threads {{ .Values.hermes.threads }}{{ end }} {{- if .Values.hermes.bulk }} --bulk {{ .Values.hermes.bulk }}{{ end }} {{- if .Values.hermes.delay }} --delay {{ .Values.hermes.delay }}{{ end }} {{- if .Values.hermes.brokerTimeout }} --broker-timeout {{ .Values.hermes.brokerTimeout }}{{ end }} {{- if .Values.hermes.brokerRetry }} --broker-retry {{ .Values.hermes.brokerRetry }}{{ end }}"
+{{- with .Values.hermes.resources }}
+          resources:
+{{ toYaml . | trim | indent 12 }}
+{{ end }}
+{{- with .Values.hermes.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.hermes.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.hermes.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{ end }}
