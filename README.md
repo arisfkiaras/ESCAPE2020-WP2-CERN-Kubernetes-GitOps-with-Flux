@@ -6,6 +6,15 @@ Helm
 fluxctl
 ## Secrets that need to be configured
 
+```bash
+kubectl create secret generic prod-rucio-ca-bundle --from-file=/etc/pki/tls/certs/CERN-bundle.pem```
+```bash
+kubectl create secret generic prod-rucio-x509up --from-file=x509up
+```
+
+```bash
+kubectl create secret generic database-config --from-literal=database_default='DATABASE_URI'
+```
 
 ## Running Flux
 Add FLUX helm charts
