@@ -33,10 +33,10 @@ spec:
       volumes:
       - name: proxy-volume
         secret:
-          secretName: {{ .Release.Name }}-rucio-x509up
+          secretName: prod-rucio-x509up
       - name: ca-volume
         secret:
-          secretName: {{ .Release.Name }}-rucio-ca-bundle
+          secretName: prod-rucio-ca-bundle
       {{- range $key, $val := .Values.additionalSecrets }}
       - name: {{ $key }}
         secret:
