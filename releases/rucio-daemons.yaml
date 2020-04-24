@@ -14,4 +14,4 @@ spec:
         repository: rucio/rucio-daemons
         tag: release-1.21.10.post1        
         pullPolicy: Always
-    judgeCleanerCount: 1
+    judgeCleanerCount: 2
