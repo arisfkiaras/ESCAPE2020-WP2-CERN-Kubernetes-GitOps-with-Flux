@@ -13,7 +13,7 @@ kubectl create secret generic prod-rucio-x509up --from-file=x509up
 ```
 
 ```bash
-kubectl create secret generic database-config --from-literal=database_default='DATABASE_URI'
+kubectl create secret generic database-config --from-literal=database-default='DATABASE_URI'
 ```
 
 ## Running Flux

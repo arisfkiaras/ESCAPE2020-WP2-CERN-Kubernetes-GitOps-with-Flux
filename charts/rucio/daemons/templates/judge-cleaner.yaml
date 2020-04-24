@@ -77,8 +77,8 @@ spec:
             - name: RUCIO_CFG_DATABASE_DEFAULT
               valueFrom:
                 secretKeyRef:
-                  name: database_config
-                  key: database_default
+                  name: database-config
+                  key: database-default
 {{- with .Values.judgeCleaner.resources }}
           resources:
 {{ toYaml . | trim | indent 12 }}
