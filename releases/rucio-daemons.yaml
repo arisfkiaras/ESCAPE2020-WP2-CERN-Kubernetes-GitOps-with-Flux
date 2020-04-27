@@ -14,5 +14,19 @@ spec:
         repository: rucio/rucio-daemons
         tag: release-1.22.3        
         pullPolicy: Always
-    judgeCleanerCount: 1
-    judgeEvaluatorCount: 1
+  abacusAccountCount: 1
+  abacusCollectionReplicaCount: 1
+  abacusRseCount: 1
+  conveyorTransferSubmitterCount: 1
+  conveyorPollerCount: 1
+  conveyorFinisherCount: 1
+  hermesCount: 0
+  judgeCleanerCount: 1
+  judgeEvaluatorCount: 1
+  judgeInjectorCount: 1
+  judgeRepairerCount: 1
+  undertakerCount: 1
+  reaperCount: 0
+  reaper2Count: 1
+  transmogrifierCount: 1
+  tracerKronosCount: 0

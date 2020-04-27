@@ -183,7 +183,7 @@ reaper:
       cpu: "700m"
 
 reaper2:
-  greedy: 0
+  greedy: 1
   scheme: ""
   threads: 4
   includeRses: ""
