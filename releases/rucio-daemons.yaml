@@ -12,7 +12,7 @@ spec:
   values:
     image:
         repository: rucio/rucio-daemons
-        tag: release-1.21.10.post1        
+        tag: release-1.22.3        
         pullPolicy: Always
     judgeCleanerCount: 1
     judgeEvaluatorCount: 1
