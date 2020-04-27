@@ -9,7 +9,7 @@ spec:
     spec:
       template:
         spec:
-          serviceAccountName: {{ .Release.Name }}-rucio-edit
+          serviceAccountName: prod-rucio-edit
           volumes:
 {{- if or (eq .Values.ftsRenewal.vo "atlas") (eq .Values.ftsRenewal.vo "dteam") }}
           - name: longproxy
@@ -45,7 +45,7 @@ spec:
                 - name: RUCIO_FTS_SERVERS
                   value: {{ .Values.ftsRenewal.servers | quote }}
                 - name: RUCIO_FTS_SECRETS
-                  value: "{{ .Release.Name }}-rucio-x509up"
+                  value: "prod-rucio-x509up"
 {{- if or (eq .Values.ftsRenewal.vo "atlas") (eq .Values.ftsRenewal.vo "dteam") }}
                 - name: RUCIO_LONG_PROXY
                   value: {{ .Values.ftsRenewal.longProxy | quote }}

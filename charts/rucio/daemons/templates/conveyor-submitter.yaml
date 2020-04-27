@@ -33,10 +33,10 @@ spec:
       volumes:
       - name: proxy-volume
         secret:
-          secretName: {{ .Release.Name }}-rucio-x509up
+          secretName: prod-rucio-x509up
       - name: ca-volume
         secret:
-          secretName: {{ .Release.Name }}-rucio-ca-bundle
+          secretName: prod-rucio-ca-bundle
       {{- range $key, $val := .Values.additionalSecrets }}
       - name: {{ $key }}
         secret:
@@ -74,6 +74,11 @@ spec:
               value: "conveyor-submitter"
             - name: RUCIO_DAEMON_ARGS
               value: "{{- if .Values.conveyorTransferSubmitter.threads }} --total-threads {{ .Values.conveyorTransferSubmitter.threads }}{{ end }} {{- if .Values.conveyorTransferSubmitter.bulk }} --bulk {{ .Values.conveyorTransferSubmitter.bulk }}{{ end }} {{- if .Values.conveyorTransferSubmitter.groupBulk }} --group-bulk {{ .Values.conveyorTransferSubmitter.groupBulk }}{{ end}}{{- if .Values.conveyorTransferSubmitter.groupPolicy }} --group-policy {{ .Values.conveyorTransferSubmitter.groupPolicy }}{{ end }} {{- if .Values.conveyorTransferSubmitter.mock }} --mock {{ .Values.conveyorTransferSubmitter.mock }}{{ end }} {{- if .Values.conveyorTransferSubmitter.sourceStrategy }} --source-strategy {{ .Values.conveyorTransferSubmitter.sourceStrategy }}{{ end }} {{- if .Values.conveyorTransferSubmitter.excludeRses }} --exclude-rses {{ .Values.conveyorTransferSubmitter.excludeRses }}{{ end}} {{- if .Values.conveyorTransferSubmitter.includeRses }} --include-rses {{ .Values.conveyorTransferSubmitter.includeRses }}{{ end}} {{- if .Values.conveyorTransferSubmitter.rses }} --rses {{ .Values.conveyorTransferSubmitter.rses }}{{ end}} {{- if .Values.conveyorTransferSubmitter.sleepTime }} --sleep-time {{ .Values.conveyorTransferSubmitter.sleepTime }}{{ end}} {{- if .Values.conveyorTransferSubmitter.activities }} --activities {{ .Values.conveyorTransferSubmitter.activities }}{{ end}} {{- if .Values.conveyorTransferSubmitter.excludeActivities }} --exclude-activities {{ .Values.conveyorTransferSubmitter.excludeActivities }}{{ end}} {{- if .Values.conveyorTransferSubmitter.maxSources }} --max-sources {{ .Values.conveyorTransferSubmitter.maxSources }}{{end }} {{- if .Values.conveyorTransferSubmitter.retryOtherFts }}  --retry-other-fts {{ .Values.conveyorTransferSubmitter.retryOtherFts }}{{ end}}"
+            - name: RUCIO_CFG_DATABASE_DEFAULT
+              valueFrom:
+                secretKeyRef:
+                  name: database-config
+                  key: database-default
 {{- with .Values.conveyorTransferSubmitter.resources }}
           resources:
 {{ toYaml . | trim | indent 12 }}

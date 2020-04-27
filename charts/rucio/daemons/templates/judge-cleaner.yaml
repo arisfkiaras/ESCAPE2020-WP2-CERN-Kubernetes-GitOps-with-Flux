@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-judg2e-cleaner
+  name: {{ .Release.Name }}-judge-cleaner
   labels:
     app: {{ template "rucio.name" . }}
     chart: {{ template "rucio.chart" . }}

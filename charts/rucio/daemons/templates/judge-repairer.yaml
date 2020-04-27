@@ -33,10 +33,10 @@ spec:
       volumes:
       - name: proxy-volume
         secret:
-          secretName: {{ .Release.Name }}-rucio-x509up
+          secretName: prod-rucio-x509up
       - name: ca-volume
         secret:
-          secretName: {{ .Release.Name }}-rucio-ca-bundle
+          secretName: prod-rucio-ca-bundle
       {{- range $key, $val := .Values.additionalSecrets }}
       - name: {{ $key }}
         secret:
@@ -74,6 +74,11 @@ spec:
               value: "judge-repairer"
             - name: RUCIO_DAEMON_ARGS
               value: "--threads {{ .Values.judgeRepairer.threads }}"
+            - name: RUCIO_CFG_DATABASE_DEFAULT
+              valueFrom:
+                secretKeyRef:
+                  name: database-config
+                  key: database-default
 {{- with .Values.judgeRepairer.resources }}
           resources:
 {{ toYaml . | trim | indent 12 }}

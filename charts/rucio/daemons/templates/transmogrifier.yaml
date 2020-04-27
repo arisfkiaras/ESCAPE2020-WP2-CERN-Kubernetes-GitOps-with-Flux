@@ -33,10 +33,10 @@ spec:
       volumes:
       - name: proxy-volume
         secret:
-          secretName: {{ .Release.Name }}-rucio-x509up
+          secretName: prod-rucio-x509up
       - name: ca-volume
         secret:
-          secretName: {{ .Release.Name }}-rucio-ca-bundle
+          secretName: prod-rucio-ca-bundle
       {{- range $key, $val := .Values.additionalSecrets }}
       - name: {{ $key }}
         secret:
@@ -70,6 +70,11 @@ spec:
               value: "transmogrifier"
             - name: RUCIO_DAEMON_ARGS
               value: "{{- if .Values.transmogrifier.threads }} --threads {{ .Values.transmogrifier.threads }}{{end}} {{- if .Values.transmogrifier.bulk }} --bulk {{ .Values.transmogrifier.bulk }}{{ end }}{{- if .Values.transmogrifier.sleepTime }} --sleep-time {{ .Values.transmogrifier.sleepTime }}{{ end }}"
+            - name: RUCIO_CFG_DATABASE_DEFAULT
+              valueFrom:
+                secretKeyRef:
+                  name: database-config
+                  key: database-default
 {{- with .Values.transmogrifier.resources }}
           resources:
 {{ toYaml . | trim | indent 12 }}

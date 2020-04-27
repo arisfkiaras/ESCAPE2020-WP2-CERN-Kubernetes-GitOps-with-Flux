@@ -68,6 +68,11 @@ spec:
               value: "hermes"
             - name: RUCIO_DAEMON_ARGS
               value: "{{- if .Values.hermes.threads }} --threads {{ .Values.hermes.threads }}{{ end }} {{- if .Values.hermes.bulk }} --bulk {{ .Values.hermes.bulk }}{{ end }} {{- if .Values.hermes.delay }} --delay {{ .Values.hermes.delay }}{{ end }} {{- if .Values.hermes.brokerTimeout }} --broker-timeout {{ .Values.hermes.brokerTimeout }}{{ end }} {{- if .Values.hermes.brokerRetry }} --broker-retry {{ .Values.hermes.brokerRetry }}{{ end }}"
+            - name: RUCIO_CFG_DATABASE_DEFAULT
+              valueFrom:
+                secretKeyRef:
+                  name: database-config
+                  key: database-default
 {{- with .Values.hermes.resources }}
           resources:
 {{ toYaml . | trim | indent 12 }}

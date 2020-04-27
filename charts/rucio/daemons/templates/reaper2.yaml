@@ -33,10 +33,10 @@ spec:
       volumes:
       - name: proxy-volume
         secret:
-          secretName: {{ .Release.Name }}-rucio-x509up
+          secretName: prod-rucio-x509up
       - name: ca-volume
         secret:
-          secretName: {{ .Release.Name }}-rucio-ca-bundle-reaper
+          secretName: prod-rucio-ca-bundle-reaper
       {{- range $key, $val := .Values.additionalSecrets }}
       - name: {{ $key }}
         secret:
@@ -80,6 +80,11 @@ spec:
               value: "/opt/rucio/reaper"
             - name: X509_USER_PROXY
               value: "/opt/proxy/x509up"
+            - name: RUCIO_CFG_DATABASE_DEFAULT
+              valueFrom:
+                secretKeyRef:
+                  name: database-config
+                  key: database-default
 {{- with .Values.reaper2.resources }}
           resources:
 {{ toYaml . | trim | indent 12 }}

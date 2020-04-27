@@ -48,6 +48,11 @@ spec:
               value: "undertaker"
             - name: RUCIO_DAEMON_ARGS
               value: "{{- if .Values.undertaker.threads }} --total-workers {{ .Values.undertaker.threads }}{{end}} {{- if .Values.undertaker.chunkSize }} --chunk-size {{ .Values.undertaker.chunkSize }}{{ end }}"
+            - name: RUCIO_CFG_DATABASE_DEFAULT
+              valueFrom:
+                secretKeyRef:
+                  name: database-config
+                  key: database-default
 {{- with .Values.undertaker.resources }}
           resources:
 {{ toYaml . | trim | indent 12 }}

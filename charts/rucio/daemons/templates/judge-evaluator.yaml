@@ -74,6 +74,11 @@ spec:
               value: "judge-evaluator"
             - name: RUCIO_DAEMON_ARGS
               value: "--threads {{ .Values.judgeEvaluator.threads }}"
+            - name: RUCIO_CFG_DATABASE_DEFAULT
+              valueFrom:
+                secretKeyRef:
+                  name: database-config
+                  key: database-default
 {{- with .Values.judgeEvaluator.resources }}
           resources:
 {{ toYaml . | trim | indent 12 }}
