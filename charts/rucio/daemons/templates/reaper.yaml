@@ -36,7 +36,7 @@ spec:
           secretName: prod-rucio-x509up
       - name: ca-volume
         secret:
-          secretName: prod-rucio-ca-bundle
+          secretName: prod-rucio-ca-certificates
       {{- range $key, $val := .Values.additionalSecrets }}
       - name: {{ $key }}
         secret:
