@@ -189,11 +189,11 @@ reaper2:
   includeRses: ""
   resources:
     limits:
-      memory: "200Mi"
-      cpu: "500m"
+      memory: "1000Mi"
+      cpu: "800m"
     requests:
       memory: "200Mi"
-      cpu: "100m"
+      cpu: "200m"
 
 transmogrifier:
   threads: 1
