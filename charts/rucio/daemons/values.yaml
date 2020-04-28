@@ -48,30 +48,30 @@ abacusAccount:
   resources:
     limits:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "500m"
     requests:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "100m"
 
 abacusCollectionReplica:
   threads: 1
   resources:
     limits:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "500m"
     requests:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "100m"
 
 abacusRse:
   threads: 1
   resources:
     limits:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "500m"
     requests:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "100m"
 
 conveyorTransferSubmitter:
   threads: 1
@@ -83,7 +83,7 @@ conveyorTransferSubmitter:
       cpu: "700m"
     requests:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "400m"
 
 conveyorPoller:
   threads: 1
@@ -93,7 +93,7 @@ conveyorPoller:
       cpu: "700m"
     requests:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "300m"
 
 conveyorFinisher:
   threads: 1
@@ -103,7 +103,7 @@ conveyorFinisher:
       cpu: "700m"
     requests:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "500m"
 
 hermes:
   threads: 1
@@ -123,50 +123,50 @@ judgeCleaner:
   resources:
     limits:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "400m"
     requests:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "100m"
 
 judgeEvaluator:
   threads: 1
   resources:
     limits:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "400m"
     requests:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "100m"
 
 judgeInjector:
   threads: 1
   resources:
     limits:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "500m"
     requests:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "100m"
 
 judgeRepairer:
   threads: 1
   resources:
     limits:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "500m"
     requests:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "100m"
 
 undertaker:
   threads: 1
   resources:
     limits:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "400m"
     requests:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "100m"
 
 reaper:
   greedy: 0
@@ -177,10 +177,10 @@ reaper:
   resources:
     limits:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "500m"
     requests:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "100m"
 
 reaper2:
   greedy: 1
@@ -190,30 +190,30 @@ reaper2:
   resources:
     limits:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "500m"
     requests:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "100m"
 
 transmogrifier:
   threads: 1
   resources:
     limits:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "400m"
     requests:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "100m"
 
 tracerKronos:
   threads: 1
   resources:
     limits:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "400m"
     requests:
       memory: "200Mi"
-      cpu: "700m"
+      cpu: "100m"
 
 ftsRenewal:
   enabled: 0
