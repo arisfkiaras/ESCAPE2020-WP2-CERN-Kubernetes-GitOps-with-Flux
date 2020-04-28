@@ -49,8 +49,8 @@ spec:
           volumeMounts:
             - name: proxy-volume
               mountPath: /opt/proxy
-            - name: ca-volume
-              mountPath: /etc/grid-security/certificates
+            # - name: ca-volume
+            #   mountPath: /etc/grid-security/certificates
             {{- range $key, $val := .Values.additionalSecrets }}
             - name: {{ $key }}
               mountPath: {{ $val.mountPath }}
