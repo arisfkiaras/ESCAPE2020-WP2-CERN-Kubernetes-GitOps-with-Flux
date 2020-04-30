@@ -17,7 +17,7 @@ spec:
     abacusAccountCount: 1
     abacusCollectionReplicaCount: 1
     abacusRseCount: 1
-    conveyorTransferSubmitterCount: 2
+    conveyorTransferSubmitterCount: 1
     conveyorPollerCount: 1
     conveyorFinisherCount: 1
     hermesCount: 0
