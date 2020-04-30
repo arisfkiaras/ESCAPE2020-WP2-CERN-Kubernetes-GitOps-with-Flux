@@ -7,7 +7,8 @@ fluxctl
 ## Secrets that need to be configured
 
 ```bash
-kubectl create secret generic prod-rucio-ca-bundle --from-file=/etc/pki/tls/certs/CERN-bundle.pem```
+kubectl create secret generic prod-rucio-ca-bundle --from-file=/etc/pki/tls/certs/CERN-bundle.pem
+```
 ```bash
 kubectl create secret generic prod-rucio-x509up --from-file=x509up
 ```
