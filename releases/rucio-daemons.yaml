@@ -12,7 +12,7 @@ spec:
   values:
     image:
         repository: rucio/rucio-daemons
-        tag: release-1.22.3        
+        tag: release-1.22.7
         pullPolicy: Always
     abacusAccountCount: 1
     abacusCollectionReplicaCount: 1
