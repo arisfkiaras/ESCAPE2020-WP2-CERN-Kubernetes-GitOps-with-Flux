@@ -12,12 +12,12 @@ spec:
   values:
     image:
         repository: rucio/rucio-daemons
-        tag: release-1.22.1
+        tag: release-1.22.7
         pullPolicy: Always
     abacusAccountCount: 1
     abacusCollectionReplicaCount: 1
     abacusRseCount: 1
-    conveyorTransferSubmitterCount: 1
+    conveyorTransferSubmitterCount: 3
     conveyorPollerCount: 1
     conveyorFinisherCount: 1
     hermesCount: 0
