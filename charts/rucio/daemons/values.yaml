@@ -74,9 +74,9 @@ abacusRse:
       cpu: "100m"
 
 conveyorTransferSubmitter:
-  threads: 2
+  threads: 3
   # activities: "'test1' 'test2'"
-  sleepTime: 10
+  sleepTime: 30
   resources:
     limits:
       memory: "500Mi"
