@@ -14,6 +14,6 @@ spec:
         repository: rucio/rucio-server
         tag: release-1.22.7
         pullPolicy: Always
-    replicaCount: 1
+    replicaCount: 2
     authReplicaCount: 1
         
