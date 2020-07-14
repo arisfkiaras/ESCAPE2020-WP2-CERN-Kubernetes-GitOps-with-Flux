@@ -2,7 +2,7 @@ apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
   name: rucio-daemons
-  namespace: prod-rucio
+  namespace: flux
 spec:
   releaseName: rucio-daemons
   chart:
