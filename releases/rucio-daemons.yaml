@@ -2,7 +2,7 @@ apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
   name: rucio-daemons
-  namespace: flux
+  namespace: prod-rucio
 spec:
   releaseName: rucio-daemons
   chart:
@@ -20,7 +20,7 @@ spec:
     conveyorTransferSubmitterCount: 5
     conveyorPollerCount: 1
     conveyorFinisherCount: 1
-    hermesCount: 1
+    hermesCount: 0
     judgeCleanerCount: 1
     judgeEvaluatorCount: 1
     judgeInjectorCount: 1

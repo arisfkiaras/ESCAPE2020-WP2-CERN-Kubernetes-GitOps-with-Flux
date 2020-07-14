@@ -1,0 +1,16 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: rucio-server
+  namespace: prod-rucio
+spec:
+  releaseName: rucio-server
+  chart:
+    git: ssh://git@github.com/arisfkiaras/ESCAPE2020-WP2-CERN-Kubernetes-GitOps-with-Flux
+    ref: master
+    path: charts/rucio/server
+  values:
+    image:
+        repository: rucio/rucio-server
+        tag: release-1.22.7
+        pullPolicy: Always
